@@ -2,8 +2,11 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from django.utils import timezone
+from .models import Post
 
 # Create your views here.
 def blogs_list(request):
-	context= {}
+	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+	context= {'posts': posts}
 	return render(request, 'blog/blog.html', context)
